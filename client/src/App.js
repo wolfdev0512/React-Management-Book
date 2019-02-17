@@ -10,6 +10,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import {withStyles} from '@material-ui/core/styles';
+import { async } from 'rxjs/internal/scheduler/async';
 
 const styles = theme => ({
   root :{
@@ -22,41 +23,30 @@ const styles = theme => ({
   }
 })
 
-const customer = [
-  {
-    'id': 1,
-    'image': 'https://placeimg.com/64/64/1',
-    'name': '박제창',
-    'birthday': '888888',
-    'gender': 'male',
-    'job': '대학원생'
-  },
 
-  {
-    'id': 2,
-    'image': 'https://placeimg.com/64/64/2',
-    'name': '박제창',
-    'birthday': '888888',
-    'gender': 'male',
-    'job': '대학원생'
-  },
-
-  {
-    'id': 3,
-    'image': 'https://placeimg.com/64/64/3',
-    'name': '박보검',
-    'birthday': '888888',
-    'gender': 'male',
-    'job': '대학원생'
-  },
-
-
-]
 
 class App extends Component {
-  render() {
 
-    const {classes} = this.props;
+  state={
+    customers : ""
+  }
+
+  //컴포넌트가 모두 준비가 된 상태가 된후 호출
+  componentDidMount(){
+      this.callApi()
+      .then(res => this.setState({
+        customers : res
+      })).catch(err => console.log(err));
+  }
+
+  callApi = async() =>{
+    const response = await fetch('/api/customers');
+    const body = await response.json();
+    return body;
+  }
+
+  render() {
+    const {classes} = this.props; //props는 변경될수 없는 데이터 명시
     return (
       <Paper className = {classes.root}>
         <Table className = {classes.table}>
@@ -74,7 +64,7 @@ class App extends Component {
           </TableHead>
           <TableBody>
           {
-          customer.map(
+          this.state.customers ? this.state.customers.map(
             c => {
               return (
                 <Customer
@@ -84,8 +74,9 @@ class App extends Component {
                   name={c.name}
                   birthday={c.birthday}
                   gender={c.gender}
-                  job={c.job}/>)})
-                  }
+                  job={c.job}/>
+                  )}) : ""
+            }
             </TableBody>
           </Table>
         </Paper>
