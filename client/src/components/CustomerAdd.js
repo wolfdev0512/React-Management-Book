@@ -30,7 +30,8 @@ class CustomerAdd extends React.Component {
             job :'',
             fileName:''
         })
-        window.location.reload();
+        // window.location.reload();
+        this.props.stateRefresh();
     }
 
     handleFileChange =(e)=>{

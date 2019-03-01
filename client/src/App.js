@@ -45,11 +45,21 @@ props or state -< shooudlcomponentUpdate() -> render
 */
 
 class App extends Component {
+  constructor(props) {
+    super(props);
 
-  state = {
-    customers: "",
-    completed: 0 // progressbar 
+    this.state = {
+      customers: "",
+      completed: 0 // progressbar 
+    }
   }
+
+  stateRefresh =() =>{
+    this.setState = setInterval(() => {
+      
+    }, (this.progress, 20 ));
+  }
+
 
   //컴포넌트가 모두 준비가 된 상태가 된후 호출
   componentDidMount() {
@@ -121,7 +131,7 @@ class App extends Component {
 
       </div>
 
-      <CustomerAdd/>
+      <CustomerAdd />
 
 
       // <div className="gray-backgroud">
