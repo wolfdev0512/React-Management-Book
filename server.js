@@ -36,7 +36,7 @@ connection.connect();
 app.get('/api/customers', (req, res) => {
   //요청이 들어왔을떄 응답하는 REST API 
   connection.query(
-    "SELECT * FROM CUSTOMER",
+    "SELECT * FROM CUSTOMER where isDeleted = 0",
     (err, rows, fields) => {
       console.log(rows);
       res.send(rows);
@@ -77,9 +77,17 @@ app.get('/api/customers', (req, res) => {
 
 app.use('/image', express.static('./upload'));
 
+app.delete('/api/customer/:id', (req, res) => {
+  let sql = 'UPDATE CUSTOMER SET isDeleted = 1 where id= ?';
+  let params = [req.params.id];
+  connection.query(sql, params, (err, rows, fields) => {
+    res.send(rows);
+  })
+})
+
 app.post('/api/customers', upload.single('image'), (req, res) => {
 
-  let sql = 'INSERT INTO CUSTOMER VALUES(NULL, ?, ?, ?, ?, ?)';
+  let sql = 'INSERT INTO CUSTOMER VALUES(NULL, ?, ?, ?, ?, ?, now(), 0)';
   let image = '/image/' + req.file.filename;
   let name = req.body.name;
   let birthday = req.body.birthday;

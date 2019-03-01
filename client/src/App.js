@@ -55,9 +55,14 @@ class App extends Component {
   }
 
   stateRefresh =() =>{
-    this.setState = setInterval(() => {
-      
-    }, (this.progress, 20 ));
+    this.setState({
+      customers:'',
+      completed:0
+    });
+
+    this.callApi().then(res => this.setState({customers:res}))
+    .catch(err => console.log(err));
+
   }
 
 
@@ -131,7 +136,7 @@ class App extends Component {
 
       </div>
 
-      <CustomerAdd />
+      <CustomerAdd stateRefresh = {this.stateRefresh}/>
 
 
       // <div className="gray-backgroud">
