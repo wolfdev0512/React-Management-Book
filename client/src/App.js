@@ -10,6 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
+
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -143,14 +144,14 @@ class App extends Component {
   }
 
   render() {
-    const filteredComponents = (data) => {
-      data = data.filter((c) => {
-        return c.name.indexOf(this.state.searchKeyword) > -1;
-      });
-      return data.map((c) => {
-        return <Customer stateRefresh={this.stateRefresh} key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job} /> 
-      });
-    }
+    // const filteredComponents = (data) => {
+    //   data = data.filter((c) => {
+    //     return c.name.indexOf(this.state.searchKeyword) > -1;
+    //   });
+    //   return data.map((c) => {
+    //     return <Customer stateRefresh={this.stateRefresh} key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job} /> 
+    //   });
+    // }
     const { classes } = this.props;
     const cellList = ["번호", "프로필 이미지", "이름", "생년월일", "성별", "직업", "설정"];
     return (
@@ -188,9 +189,16 @@ class App extends Component {
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
-                {cellList.map(c => {
+                <TableCell>번호</TableCell>
+                <TableCell>이미지</TableCell>
+                <TableCell>이름</TableCell>
+                <TableCell>생년월일</TableCell>
+                <TableCell>성별</TableCell>
+                <TableCell>직업</TableCell>
+                <TableCell>설정</TableCell>
+                {/* {cellList.map(c => {
                   return <TableCell className={classes.tableHead}>{c}</TableCell>
-                })}
+                })} */}
               </TableRow>
             </TableHead>
             <TableBody>
